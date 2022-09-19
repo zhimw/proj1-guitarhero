@@ -13,7 +13,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T>{
     public ArrayDeque() {
         items = (T[]) new Object[8];
         size = 0;
-        nextFirst = 5;
+        nextFirst = 4;
         nextLast = 5;
     }
 
@@ -21,66 +21,50 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T>{
     private void resize(int capacity) {
         T[] copy = (T[]) new Object[capacity];
 
-        int firstPartSize;
+        int startPos = (int) ((capacity - size) / 2);
 
-        if (nextFirst < nextLast) {
-            firstPartSize = size;
-        } else {
-            firstPartSize = items.length - nextFirst - 1;
-        }
-
-        int firstPartStartIndex = Math.floorMod(capacity - firstPartSize, copy.length) ;
-
-        int secondPartSize = size - firstPartSize;
-
-        System.arraycopy(items, Math.floorMod(nextFirst + 1, items.length), copy, firstPartStartIndex, firstPartSize);
-        System.arraycopy(items, 0, copy, 0, secondPartSize);
+        System.arraycopy(items, nextFirst + 1, copy, startPos, size);
         items = copy;
-        nextFirst = Math.floorMod(firstPartStartIndex - 1, items.length);
-        nextLast = Math.floorMod(secondPartSize, items.length);
+        nextFirst = startPos - 1;
+        nextLast = startPos + size;
 
     }
 
+    /** Checks if the array should be expanded. If so resize the array. */
+    private void expand() {
+        if (size * 1.5 + 2 > items.length && items.length >= 8) {
+            int resizeLength = (int) (size * 2 + 2);
+            resize(resizeLength);
+        }
+        if (nextFirst == 0 || nextLast == items.length - 1) {
+            int resizeLength = items.length + 2;
+            resize(resizeLength);
+        }
+    }
+
     @Override
-    /* Adds an item of type T to the front of the deque. You can assume that item is never null. */
     public void addFirst(T item) {
-        if (this.isEmpty()) {
-            nextLast = Math.floorMod(nextLast + 1, items.length);
-        }
-        if (size + 2 >= items.length) {
-            int resizeLength = (int) ((size + 2) * 1.25);
-            resize(resizeLength);
-        }
+        this.expand();
         items[nextFirst] = item;
-        nextFirst = Math.floorMod(nextFirst - 1, items.length);
+        nextFirst--;
         size++;
 
     }
 
     @Override
-    /* Adds an item of type T to the back of the deque. You can assume that item is never null. */
     public void addLast(T item) {
-
-        if (this.isEmpty()) {
-            nextFirst = Math.floorMod(nextFirst - 1, items.length);
-        }
-        if (size + 2 >= items.length) {
-            int resizeLength = (int) ((size + 2) * 1.25);
-            resize(resizeLength);
-        }
+        this.expand();
         items[nextLast] = item;
-        nextLast = Math.floorMod(nextLast + 1, items.length);
+        nextLast++;
         size++;
     }
 
     @Override
-    /* Returns the number of items in the deque. */
     public int size() {
         return size;
     }
 
     @Override
-    /* Prints the items in the deque from first to last, separated by a space. Once all the items have been printed, print out a new line. */
     public void printDeque() {
         for (int i = 0; i < size; i++) {
             System.out.print(get(i) + " ");
@@ -88,42 +72,38 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T>{
         System.out.println();
     }
 
+    /** Checks if the array should be shrunk. If so resize the array. */
+    private void shrink() {
+        if (items.length >= 16 && size <= items.length * 0.25) {
+            int resizeLength = (int) (size * 1.5 + 2);
+            resize(resizeLength);
+        }
+        if (nextFirst == 0 || nextLast == items.length - 1) {
+            int resizeLength = items.length + 2;
+            resize(resizeLength);
+        }
+    }
+
     @Override
-    /* Removes and returns the item at the front of the deque. If no such item exists, returns null. */
     public T removeFirst() {
         if (this.isEmpty())
             return null;
-        if (size == 1) {
-            nextLast = Math.floorMod(nextLast - 1, items.length);
-        }
-        if (items.length >= 16 && size - 1 <= items.length * 0.25) {
-            int resizeLength = (int) (size * 1.25);
-            resize(resizeLength);
-        }
-        int removeIndex = Math.floorMod(nextFirst + 1, items.length);
-        T removedItem = items[removeIndex];
-        items[removeIndex] = null;
-        nextFirst = removeIndex;
+        this.shrink();
+        nextFirst ++;
+        T removedItem = items[nextFirst];
+        items[nextFirst] = null;
         size--;
         return removedItem;
     }
 
     @Override
-    /* Removes and returns the item at the back of the deque. If no such item exists, returns null. */
     public T removeLast() {
         if (this.isEmpty())
             return null;
-        if (size == 1){
-            nextFirst = Math.floorMod(nextFirst + 1, items.length);
-        }
-        if (items.length >= 16 && size - 1 < items.length * 0.25) {
-            int resizeLength = (int) (size * 1.25);
-            resize(resizeLength);
-        }
-        int removeIndex = Math.floorMod(nextLast - 1, items.length);
-        T removedItem = items[removeIndex];
-        items[removeIndex] = null;
-        nextLast = removeIndex;
+        this.shrink();
+        nextLast--;
+        T removedItem = items[nextLast];
+        items[nextLast] = null;
         size--;
         return removedItem;
     }

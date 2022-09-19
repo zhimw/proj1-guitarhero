@@ -13,8 +13,6 @@ public class ArrayDequeTest {
      * && is the "and" operation. */
     public void addIsEmptySizeTest() {
 
-//        System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
-
         ArrayDeque<String> ad1 = new ArrayDeque<String>();
 
         assertTrue("A newly initialized adeque should be empty", ad1.isEmpty());
@@ -40,8 +38,6 @@ public class ArrayDequeTest {
     /** Adds an item, then removes an item, and ensures that dll is empty afterwards. */
     public void addRemoveTest() {
 
-//        System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
-
         ArrayDeque<Integer> ad1 = new ArrayDeque<Integer>();
         // should be empty
         assertTrue("ad1 should be empty upon initialization", ad1.isEmpty());
@@ -59,8 +55,6 @@ public class ArrayDequeTest {
     @Test
     /* Tests removing from an empty deque */
     public void removeEmptyTest() {
-
-//        System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
 
         ArrayDeque<Integer> ad1 = new ArrayDeque<>();
         ad1.addFirst(3);
@@ -83,7 +77,6 @@ public class ArrayDequeTest {
     /* Check if you can create ArrayDeques with different parameterized types*/
     public void multipleParamTest() {
 
-
         ArrayDeque<String>  ad1 = new ArrayDeque<String>();
         ArrayDeque<Double>  ad2 = new ArrayDeque<Double>();
         ArrayDeque<Boolean> ad3 = new ArrayDeque<Boolean>();
@@ -102,8 +95,6 @@ public class ArrayDequeTest {
     /* check if null is return when removing from an empty ArrayDeque. */
     public void emptyNullReturnTest() {
 
-//        System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
-
         ArrayDeque<Integer> ad1 = new ArrayDeque<Integer>();
 
         boolean passed1 = false;
@@ -117,8 +108,6 @@ public class ArrayDequeTest {
     @Test
     /* Add large number of elements to deque; check if order is LLD. */
     public void bigadequeTest() {
-
-//        System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
 
         ArrayDeque<Integer> ad1 = new ArrayDeque<Integer>();
         for (int i = 0; i < 1000000; i++) {
@@ -149,48 +138,31 @@ public class ArrayDequeTest {
                 int randVal = StdRandom.uniform(0, 100);
                 LLD.addLast(randVal);
                 AD.addLast(randVal);
-//                System.out.println("addLast(" + randVal + ")");
-//                LLD.printDeque();
-//                AD.printDeque();
             } else if (operationNumber == 1) {
                 // addFirst
                 int randVal = StdRandom.uniform(0, 100);
                 LLD.addFirst(randVal);
                 AD.addFirst(randVal);
-//                System.out.println("addFirst(" + randVal + ")");
-//                LLD.printDeque();
-//                AD.printDeque();
             } else if (operationNumber == 2) {
                 // size
                 int size = LLD.size();
                 int ADSize = AD.size();
-//                System.out.println("size: " + size);
                 assertEquals("Size are not the same", size, ADSize);
-            } else if (operationNumber == 3 && LLD.size() > 0) {
-                // removeLast
-                int lastRemoved = LLD.removeLast();
-                int ADLastRemoved = AD.removeLast();
-//                System.out.println("LLD removeLast is: " + lastRemoved);
-//                System.out.println("AD removeLast is: " + ADLastRemoved);
-//                LLD.printDeque();
-//                AD.printDeque();
-                assertEquals("Last removed are not the same", lastRemoved, ADLastRemoved);
-            } else if (operationNumber == 4 && LLD.size() > 0) {
-                // removeFirst
-                int firstRemoved = LLD.removeFirst();
-                int ADFirstRemoved = AD.removeFirst();
-//                System.out.println("LLD removeFirst is: " + firstRemoved);
-//                System.out.println("AD removeFirst is: " + ADFirstRemoved);
-//                LLD.printDeque();
-//                AD.printDeque();
-                assertEquals("First removed are not the same", firstRemoved, ADFirstRemoved);
+//            } else if (operationNumber == 3 && LLD.size() > 0) {
+//                // removeLast
+//                int lastRemoved = LLD.removeLast();
+//                int ADLastRemoved = AD.removeLast();
+//                assertEquals("Last removed are not the same", lastRemoved, ADLastRemoved);
+//            } else if (operationNumber == 4 && LLD.size() > 0) {
+//                // removeFirst
+//                int firstRemoved = LLD.removeFirst();
+//                int ADFirstRemoved = AD.removeFirst();
+//                assertEquals("First removed are not the same", firstRemoved, ADFirstRemoved);
             } else if (operationNumber == 5 && LLD.size() > 0) {
                 // get
                 int index = StdRandom.uniform(0, LLD.size());
                 int get = LLD.get(index);
                 int ADGet = AD.get(index);
-//                System.out.println("LLD get is: " + get);
-//                System.out.println("AD get is: " + ADGet);
                 assertEquals("Get i are not the same", get, ADGet);
             }
 

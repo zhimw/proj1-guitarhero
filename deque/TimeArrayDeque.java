@@ -23,7 +23,7 @@ public class TimeArrayDeque {
         ArrayDeque<Integer> Ns  = new ArrayDeque<>();
         ArrayDeque<Double> times = new ArrayDeque<>();
         ArrayDeque<Integer> opCounts = new ArrayDeque<>();
-        int N = 100000;
+        int N = 1000000;
         int operation_num = 1000000;
         int tableSize = 8;
         for (int i = 0; i < tableSize; i++) {
